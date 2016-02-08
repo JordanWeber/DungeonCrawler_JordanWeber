@@ -148,7 +148,7 @@ public class lose extends BasicGameState {
 
                 Player.health  = 100000;
                 Player.speed = .4f;
-                Unwavering.counter = 0;
+                DungeonCrawler.counter = 0;
                 ItemWin.isvisible = true;
                 Player.x = 96f;
                 Player.y = 228f;

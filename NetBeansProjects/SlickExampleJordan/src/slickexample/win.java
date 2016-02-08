@@ -41,7 +41,6 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class win extends BasicGameState {
 
 
-    public Player player = new Player();
 
 
     private StateBasedGame game;
@@ -91,13 +90,9 @@ public class win extends BasicGameState {
 
 
         g.setColor(Color.white);
-
-
-        if(player.goldbars < 10) {
-            g.drawString("You got away with "+player.goldbars+" goldbars! Try to get more next time!", 380, 200);
-            g.drawString("press 1 to play again", 400, 320);
-        }
-
+        g.drawString("You got away with "+Player.goldbars+" goldbars! Try to get more next time!", 380, 200);
+        g.drawString("press 1 to play again", 400, 320);
+        
     }
 
 
@@ -147,9 +142,10 @@ public class win extends BasicGameState {
 
                 Player.health  = 100000;
                 Player.speed = .4f;
-                Unwavering.counter = 0;
+                DungeonCrawler.counter = 0;
                 Player.x = 96f;
                 Player.y = 228f;
+                Player.goldbars = 0;
                 
                 
                 //item.isvisible = true;
