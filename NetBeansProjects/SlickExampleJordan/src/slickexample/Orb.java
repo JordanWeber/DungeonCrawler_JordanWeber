@@ -18,14 +18,16 @@ import org.newdawn.slick.geom.Shape;
  */
 public class Orb {
     private int width, height, dmg, hitboxX, hitboxY, hitBoxWidth, hitBoxHeight;
-    private float x, y;
-    private boolean isVisible = false;
+    public static int x, y;
+    public static boolean isVisible = false;
+    public int timeExists;
+    public String direction;
     Image currentImage;
-    Image orbImage;
+    Image orbImage = new Image("res/orbs/Ninja_1.png");;
     Shape hitbox;
     
-    public Orb(float a, float b) throws SlickException{
-        this.orbImage = new Image("res/orbs/Ninja_1.png");
+    public Orb(int a, int b) throws SlickException{
+        
         this.x = a;
         this.y = b;
         this.isVisible = false;
@@ -47,11 +49,28 @@ public class Orb {
         
     }
 
-    public float getX() {
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public int getTimeExists() {
+        return timeExists;
+    }
+
+    public void setTimeExists(int timeExists) {
+        this.timeExists = timeExists;
+    }
+
+    
+    public int getX() {
         return x;
     }
 
-    public float getY() {
+    public int getY() {
         return y;
     }
 

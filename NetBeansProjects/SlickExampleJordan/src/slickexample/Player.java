@@ -30,6 +30,10 @@ public class Player {
 	static float hitboxX = x + 8f;
 
 	static float hitboxY = y + 8f;
+        
+        public int shotsFired = 9;
+        
+        public String[][] inventory;
 
 	private static int startX, startY, width = 30, height = 42;
 
@@ -40,13 +44,17 @@ public class Player {
 
 	public static Animation playeranime, up, down, left, right, wait, sprite;
         
+        public static String direction;
+        
         public Player() throws SlickException {
             SpriteSheet runningSS = new SpriteSheet(
                 "res/ogrespritesheet.png", 64, 64, 0);
-
+        
 		// System.out.println("Horizontal count: "
         // +runningSS.getHorizontalCount());
 		// System.out.println("Vertical count: " +runningSS.getVerticalCount());
+        this.inventory = initInventory(3);
+            
         up = new Animation();
 
         up.setAutoUpdate(true);
@@ -152,6 +160,23 @@ public class Player {
         sprite = wait;
         }
        
+        public String[][] initInventory(int size) {
+            String[][] inv = new String[size][2];
+            for(int i = 0; i < size; i++) {
+                if(i == 0){
+                    inv[i][0] = "Basic Orb";
+                    inv[i][1] = "10";
+                } else {
+                    inv[i][0] = "--empty--";
+                    inv[i][1] = "--empty--";
+                }
+            }
+            return inv;
+        }
+        
+        public static void displayInv() {
+            
+        }
 
 	public static void setpdelta(float somenum) {
 

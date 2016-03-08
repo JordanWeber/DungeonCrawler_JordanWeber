@@ -20,8 +20,7 @@ public class Item1 {
 	public boolean isvisible = true;
 	Image currentImage;
 	Shape hitbox;
-	Image coin = new Image(
-			"res/goldbar.png");
+	Image coin = new Image("res/goldbar.png");
 
 	Item1(int a, int b) throws SlickException {
 		this.x = a;

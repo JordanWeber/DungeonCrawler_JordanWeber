@@ -1,5 +1,6 @@
 package slickexample;
 
+import java.time.zone.ZoneOffsetTransitionRule;
 import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.AppGameContainer;
@@ -25,18 +26,22 @@ class blocked {
 
 public class DungeonCrawler extends BasicGameState {
     
-    public Player player;
-    public Orb orb1;
+    public Player player;;
+    public Orb orb1, orb2, orb3, orb4, orb5, orb6, orb7, orb8, orb9, orb10;
+    public Enemy enemy1, enemy2, enemy3, enemy4, enemy5;
     public Item1 healthpotion, healthpotion1;
     public Item2 speedpotion, speedpotion1;
     public ItemWin antidote;
     public Ninja Weber, Morse, Giavana;
     public Coin coin, coin1;
+    public Orb[] orbs = new Orb[10];
     public ArrayList<Item1> stuff = new ArrayList();
     public ArrayList<Item2> stuff1 = new ArrayList();
     public ArrayList<ItemWin> stuffwin = new ArrayList();   
     public ArrayList<Ninja> ninjas = new ArrayList();
     public ArrayList<Coin> coins = new ArrayList();
+    public ArrayList<Enemy> enemies = new ArrayList();
+    
     private boolean[][] hostiles;
     private static TiledMap grassMap;
     private static AppGameContainer app;
@@ -73,7 +78,38 @@ public class DungeonCrawler extends BasicGameState {
         camera = new Camera(gc, grassMap);
         
         player = new Player();
+        
+        orb1 = new Orb((int) player.x, (int) player.y);
+        orb2 = new Orb((int) player.x, (int) player.y);
+        orb3 = new Orb((int) player.x, (int) player.y);
+        orb4 = new Orb((int) player.x, (int) player.y);
+        orb5 = new Orb((int) player.x, (int) player.y);
+        orb6 = new Orb((int) player.x, (int) player.y);
+        orb7 = new Orb((int) player.x, (int) player.y);
+        orb8 = new Orb((int) player.x, (int) player.y);
+        orb9 = new Orb((int) player.x, (int) player.y);
+        orb10 = new Orb((int) player.x, (int) player.y);
+        
 
+        orbs[0] = orb1;
+        orbs[1] = orb2;
+        orbs[2] = orb3;
+        orbs[3] = orb4;
+        orbs[4] = orb5;
+        orbs[5] = orb6;
+        orbs[6] = orb7;
+        orbs[7] = orb8;
+        orbs[8] = orb9;
+        orbs[9] = orb10;
+        
+        
+        enemy1 = new Enemy(500, 200);
+        enemy2 = new Enemy(550, 200);
+        enemy3 = new Enemy(600, 200);
+        enemy4 = new Enemy(650, 200);
+        enemy5 = new Enemy(700, 200);
+
+        
 		// *********************************************************************************
 		// Player stuff --- these things should probably be chunked into methods
         // and classes
@@ -174,7 +210,11 @@ public class DungeonCrawler extends BasicGameState {
 //        coin1 = new Coin(100, 250);
 //        coins.add(coin);
 //        coins.add(coin1);
-        
+        enemies.add(enemy1);
+        enemies.add(enemy2);
+        enemies.add(enemy3);
+        enemies.add(enemy4);
+        enemies.add(enemy5);
         
 
         speedpotion = new Item2(600, 200);
@@ -182,8 +222,7 @@ public class DungeonCrawler extends BasicGameState {
         stuff1.add(speedpotion);
 //        stuff1.add(speedpotion1);
 
-        antidote = new ItemWin(3020, 3020);
-        orb1 = new Orb(player.x, player.y);
+        antidote = new ItemWin(3000, 3000);
         stuffwin.add(antidote);
     }
 
@@ -203,15 +242,16 @@ public class DungeonCrawler extends BasicGameState {
 
 		g.drawString("x: " + (int)player.x + "y: " +(int)player.y , player.x, player.y - 10);
         g.drawString("Health: " + player.health / 1000, camera.cameraX + 10,
-                camera.cameraY + 10);
+                camera.cameraY + 10); 
 
         g.drawString("speed: " + (int) (player.speed * 10), camera.cameraX + 10,
                 camera.cameraY + 25);
         
         g.drawString("Gold Bars Collected: " + player.goldbars, camera.cameraX + 10, camera.cameraY + 40);
 
-		//g.draw(player.rect);
-        g.drawString("time passed: " + counter / 1000, camera.cameraX + 600, camera.cameraY);
+	g.draw(player.rect);
+//        g.draw(enemy1.rect);
+//        g.drawString("time passed: " + counter / 1000, camera.cameraX + 600, camera.cameraY);
         
         
         // moveenemies();
@@ -237,7 +277,7 @@ public class DungeonCrawler extends BasicGameState {
             if (a.isvisible) {
                 a.currentImage.draw(a.x, a.y);
                 
-                g.draw(a.hitbox);
+//                g.draw(a.hitbox);
             }
         }
         
@@ -245,7 +285,14 @@ public class DungeonCrawler extends BasicGameState {
             if (a.isvisible) {
                 a.currentImage.draw(a.x, a.y);
                 
-                g.draw(a.hitbox);
+//                g.draw(a.hitbox);
+            }
+        }
+        for (Enemy a : enemies) {
+            if (a.isVisible) {
+                a.currentanime.draw(a.Bx, a.By);
+                
+//                g.draw(a.rect);
             }
         }
 
@@ -258,9 +305,9 @@ public class DungeonCrawler extends BasicGameState {
             }
         }
         if(orb1.isIsVisible()) {
-            orb1.currentImage.draw(orb1.getX(), orb1.getY());
+        orb1.currentImage.draw(orb1.getX(), orb1.getY());
+//            g.draw(orb1.hitbox);
         }
-
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
@@ -283,6 +330,7 @@ public class DungeonCrawler extends BasicGameState {
 
 		// there are two types of fixes. A kludge and a hack. This is a kludge.
         if (input.isKeyDown(Input.KEY_UP)) {
+            player.direction = "up";
 
             player.sprite = player.up;
 
@@ -298,6 +346,7 @@ public class DungeonCrawler extends BasicGameState {
             }
 
         } else if (input.isKeyDown(Input.KEY_DOWN)) {
+            player.direction = "down";
 
             player.sprite = player.down;
 
@@ -311,6 +360,7 @@ public class DungeonCrawler extends BasicGameState {
             }
 
         } else if (input.isKeyDown(Input.KEY_LEFT)) {
+            player.direction = "left";
 
             player.sprite = player.left;
 
@@ -324,6 +374,7 @@ public class DungeonCrawler extends BasicGameState {
             }
 
         } else if (input.isKeyDown(Input.KEY_RIGHT)) {
+            player.direction = "right";
 
             player.sprite = player.right;
 
@@ -341,14 +392,36 @@ public class DungeonCrawler extends BasicGameState {
             // rightlimit);}
 
         } else if (input.isKeyPressed(Input.KEY_SPACE)) {
-            orb1.setX((int) player.x);
-            orb1.setY((int) player.y);
-            orb1.hitbox.setX(orb1.getX());
-            orb1.hitbox.setY(orb1.getY());
-            orb1.setIsVisible(!orb1.isIsVisible());
+            orbs[player.shotsFired].setX((int) player.x);
+            orbs[player.shotsFired].setY((int) player.y);
+            orbs[player.shotsFired].hitbox.setX(orbs[player.shotsFired].getX());
+            orbs[player.shotsFired].hitbox.setY(orbs[player.shotsFired].getY());
+            orbs[player.shotsFired].setIsVisible(!orbs[player.shotsFired].isIsVisible());
+            if(!orbs[player.shotsFired].isIsVisible()) {
+                orbs[player.shotsFired].setIsVisible(!orbs[player.shotsFired].isIsVisible());
+            }
+            orbs[player.shotsFired].setDirection(player.direction);
+//            player.shotsFired++;
+//            }
             
         }
-
+        if(orbs[player.shotsFired].getDirection()=="up") {
+            orbs[player.shotsFired].setX(orbs[player.shotsFired].getX());
+            orbs[player.shotsFired].setY(orbs[player.shotsFired].getY() - 5);         
+        } else if(orbs[player.shotsFired].getDirection()=="down") {
+            orbs[player.shotsFired].setX(orbs[player.shotsFired].getX());
+            orbs[player.shotsFired].setY(orbs[player.shotsFired].getY() + 5);
+        } else if(orbs[player.shotsFired].getDirection()=="left") {
+            orbs[player.shotsFired].setX(orbs[player.shotsFired].getX() - 5);
+            orbs[player.shotsFired].setY(orbs[player.shotsFired].getY());
+        } else if(orbs[player.shotsFired].getDirection()=="right") {
+            orbs[player.shotsFired].setX(orbs[player.shotsFired].getX() + 5);
+            orbs[player.shotsFired].setY(orbs[player.shotsFired].getY());
+        }
+        
+        orbs[player.shotsFired].hitbox.setX(orbs[player.shotsFired].getX());
+        orbs[player.shotsFired].hitbox.setY(orbs[player.shotsFired].getY());
+        
         player.rect.setLocation(player.getplayershitboxX(),
                 player.getplayershitboxY());
 
@@ -361,6 +434,14 @@ public class DungeonCrawler extends BasicGameState {
                     i.isvisible = false;
                 }
 
+            }
+        }
+        
+        for (Enemy a : enemies) {
+            if(orbs[player.shotsFired].hitbox.intersects(a.rect)) {
+                if(a.isVisible) {
+                    a.isVisible = false;
+                }
             }
         }
         
@@ -404,9 +485,9 @@ public class DungeonCrawler extends BasicGameState {
             }
         }
         
-        if(orb1.hitbox.intersects(player.rect)) {
-            
-        }
+//        if(orb1.hitbox.intersects(player.rect)) {
+//            
+//        }
 
 //        player.health -= counter / 1000;
         if (player.health <= 0) {
@@ -444,5 +525,6 @@ public class DungeonCrawler extends BasicGameState {
 
 		// this could make a better kludge
     }
+    
 
 }
